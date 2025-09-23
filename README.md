@@ -38,7 +38,26 @@ $ sudo make install
 ```
 ## 📷 **Installation Verification**
 <p align="center">
-  <img src="https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-09-23%20at%201.39.01%20AM.jpeg" 
+  <img src="https://github.com/TheVoltageVikingRam/RTL2GDS_Alchemy/blob/main/Week0/assets/yosys_installed.png" 
+       alt="Yosys Installed" width="600"/>
+</p>
+
+<div align="center">
+
+✅ **Yosys Successfully Installed**
+
+</div>
+
+---
+
+#### **2. Iverilog**
+```bash
+$ sudo apt-get update
+$ sudo apt-get install iverilog
+```
+## 📷 **Installation Verification**
+<p align="center">
+  <img src="https://github.com/TheVoltageVikingRam/RTL2GDS_Alchemy/blob/main/Week0/assets/iverilog_installed.png" 
        alt="Iverilog Installed" width="600"/>
 </p>
 
@@ -50,15 +69,21 @@ $ sudo make install
 
 ---
 
-#### **2. Iverilog**
-```bash
-$ sudo apt-get update
-$ sudo apt-get install iverilog
-```
-
-
 #### **3.gtkwave**
 ```bash
 $ sudo apt-get update
 $ sudo apt install gtkwave
 ```
+## 📷 **Installation Verification**
+<p align="center">
+  <img src="https://github.com/TheVoltageVikingRam/RTL2GDS_Alchemy/blob/main/Week0/assets/gtkwave_installed.png" 
+       alt="GTKWave Installed" width="600"/>
+</p>
+
+<div align="center">
+
+✅ **GTKWave Successfully Installed**
+
+</div>
+
+---
