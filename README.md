@@ -36,6 +36,20 @@ $ git submodule update --init --recursive
 $ make 
 $ sudo make install
 ```
+## 📷 **Installation Verification**
+<p align="center">
+  <img src="https://github.com/TheVoltageVikingRam/RTL2GDS_Alchemy/blob/main/Week0/assets/iverilog_installed.png" 
+       alt="Iverilog Installed" width="600"/>
+</p>
+
+<div align="center">
+
+✅ **Iverilog Successfully Installed**
+
+</div>
+
+---
+
 #### **2. Iverilog**
 ```bash
 $ sudo apt-get update
