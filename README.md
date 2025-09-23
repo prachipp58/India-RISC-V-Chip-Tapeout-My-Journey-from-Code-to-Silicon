@@ -76,7 +76,7 @@ $ sudo apt install gtkwave
 ```
 ## 📷 **Installation Verification**
 <p align="center">
-  <img src="https://github.com/TheVoltageVikingRam/RTL2GDS_Alchemy/blob/main/Week0/assets/gtkwave_installed.png" 
+  <img src="https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-09-23%20at%201.39.43%20AM.jpeg" 
        alt="GTKWave Installed" width="600"/>
 </p>
 
