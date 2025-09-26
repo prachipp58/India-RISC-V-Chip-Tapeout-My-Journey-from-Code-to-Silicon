@@ -87,3 +87,16 @@ $ sudo apt install gtkwave
 </div>
 
 ---
+</details>
+<details>
+<summary><b> 📅 Week 1 - Verilog RTL Design, Synthesis Fundamentals, and Optimization</b></summary>
+  
+### Day 1 - Introduction to Verilog RTL design and Synthesis
+To start the lab, clone the workshop repository from GitHub:
+
+```bash
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop
+cd sky130RTLDesignAndSynthesisWorkshop
+````
+</details>
+
