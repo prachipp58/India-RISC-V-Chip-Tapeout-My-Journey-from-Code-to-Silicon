@@ -92,11 +92,24 @@ $ sudo apt install gtkwave
 <summary><b> 📅 Week 1 - Verilog RTL Design, Synthesis Fundamentals, and Optimization</b></summary>
   
 ### Day 1 - Introduction to Verilog RTL design and Synthesis
-To start the lab, clone the workshop repository from GitHub:
 
-```bash
-git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop
-cd sky130RTLDesignAndSynthesisWorkshop
-````
+### 🛠️ Focus: RTL Synthesis of `good_mux.v` using Yosys & ABC
+
+This log documents the commands for environment setup and the initial synthesis flow, highlighting key observations and discrepancies.
+
+| # | Command Executed | Description | Lab Context/Tool | Key Learnings/Notes |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | `git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop` | **Clones the official workshop repository.** | ⚙️ Git / Setup | Creates the local directory containing all lab files. |
+| **2** | `cd sky130RTLDesignAndSynthesisWorkshop` | **Changes to the working directory.** | 📁 Linux Shell | Sets the base path for running EDA tools. |
+| **3** | `yosys` | **Launches the Yosys synthesis tool** command-line interface. | ▶️ Yosys | Starts the prompt (`yosys>`). |
+| **4** | `read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Loads the sky130 standard cell library.** | 📚 Yosys | Imported **418** cells. ⚠️ **CRITICAL NOTE:** Reference showed 428; must verify library version. |
+| **5** | `read_verilog good_mux.v` | **Loads the RTL Design Under Test (DUT).** | 📜 Yosys | Successfully parses the Verilog design file. |
+| **6** | `synth -top good_mux` | **Executes the core synthesis script** (cleanup, flattening, optimization). | ⚙️ Yosys | Prepares the logic for technology mapping. |
+| **7** | `abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Performs final logic optimization and technology mapping.** | 🚀 Yosys (via ABC) | Mapped optimally to **1 `sky130_fd_sc_hd__mux2_1` cell** (✅ Superior/Optimal Mapping). |
+| **8** | `show` | **Generates a graphical visualization** of the synthesized netlist. | 🖼️ Yosys (via Graphviz) | Visually confirms the netlist structure. |
+| **9** | `!gvim good_mux_netlist.v` | **Spawns a shell command to inspect the gate-level netlist file.** | 🔍 Yosys / Shell | Confirms the gate-level Verilog instantiates the MUX cell. |
+| **10** | `write_verilog -noattr good_mux_netlist.v` | **Saves the final synthesized netlist to a file.** | 📝 Yosys | Creates the netlist file for subsequent Gate-Level Simulation (GLS). |
+| **11** | `stat` | **Displays the final cell count and design hierarchy statistics.** | 📊 Yosys | Confirms final area/cell usage (1 MUX cell). |
+| **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
 </details>
 
