@@ -93,7 +93,7 @@ $ sudo apt install gtkwave
   
 ### Day 1 - Introduction to Verilog RTL design and Synthesis
 
-### 🛠️ Focus: RTL Synthesis of `good_mux.v` using Yosys & ABC
+### 🎯 Focus: RTL Synthesis of `good_mux.v` using Yosys & ABC
 
 This log documents the commands for environment setup and the initial synthesis flow, highlighting key observations and discrepancies.
 
@@ -111,5 +111,69 @@ This log documents the commands for environment setup and the initial synthesis 
 | **10** | `write_verilog -noattr good_mux_netlist.v` | **Saves the final synthesized netlist to a file.** | 📝 Yosys | Creates the netlist file for subsequent Gate-Level Simulation (GLS). |
 | **11** | `stat` | **Displays the final cell count and design hierarchy statistics.** | 📊 Yosys | Confirms final area/cell usage (1 MUX cell). |
 | **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
+
+## Day 2 Log - Hierarchical Synthesis Experiments 🧠
+
+### 🎯 Focus: Synthesis Modes (Hierarchical, Flat, and Block-Level)
+
+This log documents three separate synthesis runs on the `multiple_modules.v` design to analyze the effects of hierarchy and targeted synthesis, providing outputs for visual documentation.
+
+---
+
+### 🧪**Experriment 1: Hierarchical Synthesis (Hierarchy Preserved)**
+
+**Goal:** Synthesize the design while maintaining the structure of `sub_module1` and `sub_module2` as instantiations in the netlist.
+
+| # | Command Executed | Description | Key Learnings/Notes |
+| :---: | :--- | :--- | :--- |
+| **1** | `read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Loads the sky130 standard cell library.** | Imported 418 cells (discrepancy noted). |
+| **2** | `read_verilog multiple_modules.v` | **Loads the Hierarchical RTL Design.** | Parses all modules defined in the file. |
+| **3** | `synth -top multiple_modules` | **Synthesizes the Top Module (No Flatten).** | Optimization runs while preserving module boundaries. |
+| **4** | `abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Performs Technology Mapping on the hierarchical netlist.** | Maps standard cells but preserves hierarchy. |
+| **5** | `show` | **Generates a graphical visualization.** | **Output:** Diagram shows the top module instantiating the sub-module boxes. |
+| **6** | `write_verilog -noattr multiple_modules_hier.v` | **Saves the Hierarchical Gate-Level Netlist.** | File ready for hierarchical Gate-Level Simulation (GLS). |
+| **7** | `!gvim multiple_modules_hier.v` | **Inspects the saved netlist file.** | Confirms instantiation of sub-modules. |
+
+**Output Visualization (Task 1):**
+
+[PLACEHOLDER: Image for Task 1 - Hierarchical Synthesis]
+
+---
+
+### 🧪**Experiment 2: Flattened Synthesis**
+
+**Goal:** Remove all internal hierarchy from the netlist, resulting in a single module containing all logic gates.
+
+| # | Command Executed | Description | Key Learnings/Notes |
+| :---: | :--- | :--- | :--- |
+| **1** | `flatten` | **Removes all module hierarchy.** | Converts the design into a single, flat netlist structure. |
+| **2** | `show` | **Visualizes the Flattened Netlist.** | **Output:** Diagram shows all gate-level cells merged into one large, complex block. |
+| **3** | `write_verilog -noattr multiple_modules_flat.v` | **Saves the Flattened Gate-Level Netlist.** | Ready for tools that require a single netlist block. |
+| **4** | `exit` | **Exits the Yosys shell.** | Returns control to the Linux shell. (Assuming you re-enter for Task 3). |
+
+**Output Visualization (Task 2):**
+
+[PLACEHOLDER: Image for Task 2 - Flattened Synthesis]
+
+---
+
+### 🧪**Experiment 3: Sub-Module Level Synthesis**
+
+**Goal:** Synthesize and analyze a single block (`sub_module1`) in isolation (essential for block-level closure).
+
+| # | Command Executed | Description | Key Learnings/Notes |
+| :---: | :--- | :--- | :--- |
+| **1** | `yosys` | **Launches a new Yosys session.** | Required after the previous `exit`. |
+| **2** | `read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Loads the library.** | Sets up the technology reference. |
+| **3** | `read_verilog multiple_modules.v` | **Loads the RTL.** | Loads all modules for potential targeting. |
+| **4** | `synth -top sub_module1` | **Synthesizes *only* the `sub_module1` design.** | **Key Experiment:** Isolates the synthesis target. |
+| **5** | `abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib` | **Maps the isolated sub-module to cells.** | Generates the final netlist for this block. |
+| **6** | `show` | **Visualizes the `sub_module1` netlist.** | **Output:** Diagram shows only the gate-level implementation of `sub_module1`. |
+| **7** | `write_verilog -noattr sub_module1_netlist.v` | **Saves the netlist for the sub-module.** | Allows saving the block for future reuse as a hard macro. |
+| **8** | `exit` | **Exits the Yosys shell.** | Concludes the block-level synthesis experiment. |
+
+**Output Visualization (Task 3):**
+
+[PLACEHOLDER: Image for Task 3 - Sub-Module Synthesis]
 </details>
 
