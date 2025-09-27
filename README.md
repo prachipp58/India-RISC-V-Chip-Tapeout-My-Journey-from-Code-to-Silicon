@@ -273,5 +273,112 @@ yosys> stat
 # 8. Output the Final Gate-Level Netlist
 yosys> write_verilog -noattr synth_dff_const5.v
 ```
+## 💻 Day 4 Report: Comprehensive Analysis of Synthesis-Simulation Mismatch
+
+Day 4 focused on **Gate-Level Simulation (GLS)**, a crucial verification step after synthesis, with the primary goal of demonstrating and debugging the **Synthesis-Simulation Mismatch** caused by incorrect RTL coding practices.
+
+***
+
+## 1. 🧪 Experiment: Synthesis-Simulation Mismatch and Netlist Validation
+
+This experiment demonstrates a synthesis-simulation mismatch caused by using an **incorrect or incomplete sensitivity list** in the combinatorial `always` block of the design file, `bad_mux.v`. This type of error causes the Verilog simulator to behave differently from the physical netlist.
+
+### Step 1: Pre-Synthesis (RTL) Simulation (RTL Pass - Misleading)
+
+The initial simulation of the original RTL code (`bad_mux.v`) runs successfully, masking the underlying bug.
+
+| Command Sequence | Observation |
+| :--- | :--- |
+| ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v bad_mux.v tb_bad_mux.v ./a.out ``` | **RTL PASS:** The simulator follows its internal scheduling rules, honoring the explicit (but incorrect) sensitivity list. The output appears **functionally correct**, misleading the designer. |
+
+| Image |
+| :--- |
+| **** |
+
+---
+
+### Step 2: Synthesis and Netlist Analysis
+
+Yosys synthesizes the flawed RTL. Instead of inferring a latch (the classic error), the tool correctly infers purely combinatorial logic (a MUX) but flags the incorrect sensitivity list as a warning.
+
+| Yosys Log Highlight | Implication |
+| :--- | :--- |
+| **Note:** `Recommending use of @* instead of @(...)` | Confirms the use of an incomplete sensitivity list, which is the **RTL bug**. |
+| **Check:** `No latch inferred for signal \bad_mux.\y'` | Confirms the netlist contains **purely combinatorial logic** (`sky130_fd_sc_hd__mux2_1`), meaning the hardware updates instantly with any input change. |
+
+| Image |
+| :--- |
+| **** |
+
+---
+
+### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
+
+The Gate-Level Simulation (GLS) using the synthesized netlist (`synth_bad_mux.v`) exposes the functional mismatch between the ideal RTL simulation and the actual netlist behavior.
+
+| Command Sequence | Result |
+| :--- | :--- |
+| ```bash # Run GLS on the synthesized netlist iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v synth_bad_mux.v tb_bad_mux.v ./a.out ``` | **GLS FAIL (Mismatch):** The **Netlist (GLS)** output updates **instantly** when any input changes (correct hardware behavior). The overlaid **RTL waveform** shows a **functional failure** or **delayed update** where the output failed to update instantly due to the missing signal in the sensitivity list. |
+
+| Image |
+| :--- |
+| **** |
+### 🛑 Final Conclusion and Verification Status
+
+The experiment successfully demonstrated the critical nature of the **Synthesis-Simulation Mismatch**. The initial **RTL Simulation passed (✅)**, but the subsequent **Gate-Level Simulation (GLS) failed (❌)** to match the RTL, proving that the **missing signal in the sensitivity list** led to functionally incorrect hardware behavior compared to the flawed simulator model. The correct fix is to use **`always @*`** in the RTL.
+## 🧪 Experiment 2: Synthesis-Simulation Mismatch (Blocking Assignments in Sequential Logic)
+
+This experiment demonstrates a major functional error caused by incorrectly using **blocking assignments (`=`)** within a sequential `always @(posedge clk)` block in the file **`blocking_caveat.v`**. This causes a mismatch because the simulator executes the assignments sequentially, while the synthesizer infers parallel D-Flip-Flops (DFFs), losing the intended sequential flow (e.g., a shift register).
+
+### Step 1: Pre-Synthesis (RTL) Simulation (RTL Pass - Misleading)
+
+The RTL code, using blocking assignments (`=`), passes the simulation check, masking the bug.
+
+| Command Sequence | Observation |
+| :--- | :--- |
+| ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v blocking_caveat.v tb_blocking_caveat.v ./a.out VCD info: dumpfile tb_blocking_caveat.vcd opened for output. tb_blocking_caveat.v:24: $finish called at 3000000 (1ps) ``` | **RTL PASS:** Simulator executes assignments **sequentially** (correcting the designer's intent) and the logic appears functional (e.g., shifting) in simulation. |
+
+| Image |
+| :--- |
+| **** |
+
+---
+
+### Step 2: Synthesis and Netlist Analysis
+
+The synthesizer (Yosys) correctly infers **parallel D-Flip-Flops (DFFs)** based on the clock edge, **ignoring the sequential effect** of the blocking assignment operator (`=`).
+
+| Synthesis Step | Implication |
+| :--- | :--- |
+| **Yosys Flow:** `synth -top blocking_caveat` | Yosys will infer **parallel DFFs** (using `$dff` cells) because it correctly ignores the sequential semantics of the blocking operator in a clocked block. |
+| **Netlist Structure:** Parallel DFFs | The netlist will feature **parallel DFFs**, destroying the intended sequential dependency (e.g., the shifting action). |
+
+| Image |
+| :--- |
+| **** |
+
+---
+
+### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
+
+The GLS on the synthesized netlist (`synth_blocking_caveat.v`) will expose the functional failure, demonstrating the mismatch between the intended sequential flow and the synthesized parallel hardware.
+
+| Command Sequence | Result |
+| :--- | :--- |
+| ```bash # Run GLS on the synthesized netlist iverilog ... sky130_fd_sc_hd.v synth_blocking_caveat.v tb_blocking_caveat.v ./a.out ``` | **GLS FAIL (Mismatch):** The **Netlist (GLS)** output exhibits **parallel behavior** (all DFFs updating from the same source) instead of the intended sequential/shift register behavior. |
+
+| Image |
+| :--- |
+| **** |
+
+---
+
+### 🛑 Final Conclusion for Experiment 2
+
+The experiment successfully demonstrated the functional failure caused by the **synthesis-simulation mismatch**. The intended sequential behavior was corrupted during synthesis because the **blocking assignment operator (`=`)** was used in a clocked block.
+
+| Status | Result | Fix |
+| :--- | :--- | :--- |
+| **Mismatch Status** | **GLS Failed (❌)** | Replace all blocking assignments (`=`) with **non-blocking assignments (`<=`)** in sequential (`always @(posedge clk)`) blocks. |
 </details>
 
