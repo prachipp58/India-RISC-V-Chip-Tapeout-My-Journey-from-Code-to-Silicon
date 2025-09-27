@@ -136,12 +136,12 @@ This log documents three separate synthesis runs on the `multiple_modules.v` des
 | **5** | `show` | **Generates a graphical visualization.** | **Output:** Diagram shows the top module instantiating the sub-module boxes. |
 | **6** | `write_verilog -noattr multiple_modules_hier.v` | **Saves the Hierarchical Gate-Level Netlist.** | File ready for hierarchical Gate-Level Simulation (GLS). |
 | **7** | `!gvim multiple_modules_hier.v` | **Inspects the saved netlist file.** | Confirms instantiation of sub-modules. |
+---
 
 **Output Visualization (Task 1):**
 
-[PLACEHOLDER: Image for Task 1 - Hierarchical Synthesis]
+![Alt text](https://www.example.com/your-image.png)
 
----
 
 ### 🧪**Experiment 2: Flattened Synthesis**
 
@@ -153,12 +153,10 @@ This log documents three separate synthesis runs on the `multiple_modules.v` des
 | **2** | `show` | **Visualizes the Flattened Netlist.** | **Output:** Diagram shows all gate-level cells merged into one large, complex block. |
 | **3** | `write_verilog -noattr multiple_modules_flat.v` | **Saves the Flattened Gate-Level Netlist.** | Ready for tools that require a single netlist block. |
 | **4** | `exit` | **Exits the Yosys shell.** | Returns control to the Linux shell. (Assuming you re-enter for Task 3). |
-
+---
 **Output Visualization (Task 2):**
 
-[PLACEHOLDER: Image for Task 2 - Flattened Synthesis]
-
----
+![Alt text](https://www.example.com/your-image.png)
 
 ### 🧪**Experiment 3: Sub-Module Level Synthesis**
 
@@ -177,7 +175,7 @@ This log documents three separate synthesis runs on the `multiple_modules.v` des
 
 **Output Visualization (Task 3):**
 
-[PLACEHOLDER: Image for Task 3 - Sub-Module Synthesis]
+![Alt text](https://www.example.com/your-image.png)
 
 ## 💻 Day 3: Synthesis, Optimization, and Visualization
 
@@ -212,6 +210,7 @@ yosys> write_verilog -noattr synth_opt_check2.v
 # 8. Visualize the Synthesized Netlist
 yosys> show
    ```
+![Alt text](https://www.example.com/your-image.png)
 
 ### 🧪**Experiment2: Hierarchical Synthesis of `multiple_module_opt2`**
 
@@ -244,6 +243,8 @@ yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 yosys> show
 # This command generates the netlist visualization using an external viewer (e.g., xdot).
 ```
+![Alt text](https://www.example.com/your-image.png)
+
 ## 🧪 Experiment 3: Sequential Logic Mapping and Optimization
 
 This experiment focuses on synthesizing a design containing sequential elements (D-Flip-Flops) and ensuring they are correctly mapped to the target Sky130 standard cells **before** the final combinatorial logic mapping (`abc`).
@@ -276,7 +277,9 @@ yosys> stat
 # 8. Output the Final Gate-Level Netlist
 yosys> write_verilog -noattr synth_dff_const5.v
 ```
-## 💻 Day 4 Report: Comprehensive Analysis of Synthesis-Simulation Mismatch
+![Alt text](https://www.example.com/your-image.png)
+
+## 💻 Day 4: Comprehensive Analysis of Synthesis-Simulation Mismatch
 
 Day 4 focused on **Gate-Level Simulation (GLS)**, a crucial verification step after synthesis, with the primary goal of demonstrating and debugging the **Synthesis-Simulation Mismatch** caused by incorrect RTL coding practices.
 
@@ -293,12 +296,8 @@ The initial simulation of the original RTL code (`bad_mux.v`) runs successfully,
 | Command Sequence | Observation |
 | :--- | :--- |
 | ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v bad_mux.v tb_bad_mux.v ./a.out ``` | **RTL PASS:** The simulator follows its internal scheduling rules, honoring the explicit (but incorrect) sensitivity list. The output appears **functionally correct**, misleading the designer. |
-
-| Image |
-| :--- |
-| **** |
-
 ---
+![Alt text](https://www.example.com/your-image.png)
 
 ### Step 2: Synthesis and Netlist Analysis
 
@@ -308,12 +307,8 @@ Yosys synthesizes the flawed RTL. Instead of inferring a latch (the classic erro
 | :--- | :--- |
 | **Note:** `Recommending use of @* instead of @(...)` | Confirms the use of an incomplete sensitivity list, which is the **RTL bug**. |
 | **Check:** `No latch inferred for signal \bad_mux.\y'` | Confirms the netlist contains **purely combinatorial logic** (`sky130_fd_sc_hd__mux2_1`), meaning the hardware updates instantly with any input change. |
-
-| Image |
-| :--- |
-| **** |
-
 ---
+![Alt text](https://www.example.com/your-image.png)
 
 ### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
 
@@ -322,10 +317,9 @@ The Gate-Level Simulation (GLS) using the synthesized netlist (`synth_bad_mux.v`
 | Command Sequence | Result |
 | :--- | :--- |
 | ```bash # Run GLS on the synthesized netlist iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v synth_bad_mux.v tb_bad_mux.v ./a.out ``` | **GLS FAIL (Mismatch):** The **Netlist (GLS)** output updates **instantly** when any input changes (correct hardware behavior). The overlaid **RTL waveform** shows a **functional failure** or **delayed update** where the output failed to update instantly due to the missing signal in the sensitivity list. |
+---
+![Alt text](https://www.example.com/your-image.png)
 
-| Image |
-| :--- |
-| **** |
 ### 🛑 Final Conclusion and Verification Status
 
 The experiment successfully demonstrated the critical nature of the **Synthesis-Simulation Mismatch**. The initial **RTL Simulation passed (✅)**, but the subsequent **Gate-Level Simulation (GLS) failed (❌)** to match the RTL, proving that the **missing signal in the sensitivity list** led to functionally incorrect hardware behavior compared to the flawed simulator model. The correct fix is to use **`always @*`** in the RTL.
