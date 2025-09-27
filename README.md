@@ -112,8 +112,7 @@ This log documents the commands for environment setup and the initial synthesis 
 | **11** | `stat` | **Displays the final cell count and design hierarchy statistics.** | 📊 Yosys | Confirms final area/cell usage (1 MUX cell). |
 | **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
 **Output Visualization (Task 1):**
-
-![GLS Waveform Showing Mismatch](images/day4_gls_mismatch.png)
+![Alt text](your_copied_url)
 
 ---
 
