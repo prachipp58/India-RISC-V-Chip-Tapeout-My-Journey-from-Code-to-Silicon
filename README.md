@@ -91,7 +91,7 @@ $ sudo apt install gtkwave
 <details>
 <summary><b> 📅 Week 1 - Verilog RTL Design, Synthesis Fundamentals, and Optimization</b></summary>
   
-### Day 1 - Introduction to Verilog RTL design and Synthesis
+## 💻Day 1 - Introduction to Verilog RTL design and Synthesis
 
 ### 🎯 Focus: RTL Synthesis of `good_mux.v` using Yosys & ABC
 
@@ -112,7 +112,7 @@ This log documents the commands for environment setup and the initial synthesis 
 | **11** | `stat` | **Displays the final cell count and design hierarchy statistics.** | 📊 Yosys | Confirms final area/cell usage (1 MUX cell). |
 | **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
 
-## Day 2 Log - Hierarchical Synthesis Experiments 🧠
+## 💻Day 2 Log - Hierarchical Synthesis Experiments 🧠
 
 ### 🎯 Focus: Synthesis Modes (Hierarchical, Flat, and Block-Level)
 
@@ -175,5 +175,103 @@ This log documents three separate synthesis runs on the `multiple_modules.v` des
 **Output Visualization (Task 3):**
 
 [PLACEHOLDER: Image for Task 3 - Sub-Module Synthesis]
+
+## 💻 Day 3: Synthesis, Optimization, and Visualization
+
+### 🧪**Experiment 1: Synthesis and Optimization of `opt_check2.v`**
+
+This experiment demonstrates the standard, optimized synthesis flow for a single-module design, preparing the Register-Transfer Level (RTL) code for technology mapping to the Skywater 130nm standard cell library.
+
+#### Yosys Command Sequence
+
+```bash
+# 1. Load Technology Library (Sky130 PDK)
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 2. Load the RTL Design File
+yosys> read_verilog opt_check2.v
+
+# 3. Initial Synthesis and Mapping
+yosys> synth -top opt_check2
+
+# 4. Remove unused elements and perform simple logic optimizations
+yosys> opt_clean -purge
+
+# 5. Advanced Technology Mapping and Logic Minimization using ABC
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 6. Generate Final Statistics (Gate count, Area)
+yosys> stat
+
+# 7. Output the Final Gate-Level Netlist
+yosys> write_verilog -noattr synth_opt_check2.v
+
+# 8. Visualize the Synthesized Netlist
+yosys> show
+   ```
+
+### 🧪**Experiment2: Hierarchical Synthesis of `multiple_module_opt2`**
+
+This experiment successfully synthesized a hierarchical design, demonstrating the crucial role of the **`flatten`** pass in enabling global optimization and resource sharing across multiple module instances.
+
+### Complete Synthesis Flow for Hierarchical Design
+
+The following commands were executed in sequence to synthesize, flatten, and map the design.
+
+```bash
+# 1. Load Technology Library 
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 2. Load Multi-Module Design (Includes sub_module and top module)
+yosys> read_verilog multiple_module_opt2.v
+
+# 3. Initial Synthesis and Hierarchy Management
+yosys> synth -top multiple_module_opt2
+
+# 4. CRUCIAL STEP: Flatten Hierarchy for Global Optimization
+yosys> flatten
+
+# 5. Clean up unused elements after flattening
+yosys> opt_clean -purge
+
+# 6. Technology Mapping and Logic Minimization using ABC
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 7. Visualize the final optimized netlist
+yosys> show
+# This command generates the netlist visualization using an external viewer (e.g., xdot).
+```
+## 🧪 Experiment 3: Sequential Logic Mapping and Optimization
+
+This experiment focuses on synthesizing a design containing sequential elements (D-Flip-Flops) and ensuring they are correctly mapped to the target Sky130 standard cells **before** the final combinatorial logic mapping (`abc`).
+
+### Yosys Command Sequence
+
+```bash
+# 1. Load Technology Library (Sky130 PDK)
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 2. Load the Sequential RTL Design File
+yosys> read_verilog dff_const5.v
+
+# 3. Initial Synthesis and RTL-to-Netlist Conversion
+yosys> synth -top dff_const5
+
+# 4. **CRUCIAL STEP: DFF Mapping**
+# Replaces generic $dff cells with specific Sky130 Flip-Flop cells.
+yosys> dfflibmap -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 5. Visualize the design after DFF mapping (optional, but instructive)
+yosys> show 
+
+# 6. Map Remaining Combinatorial Logic to Sky130 Gates
+yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# 7. Get final gate count and area statistics
+yosys> stat
+
+# 8. Output the Final Gate-Level Netlist
+yosys> write_verilog -noattr synth_dff_const5.v
+```
 </details>
 
