@@ -111,10 +111,9 @@ This log documents the commands for environment setup and the initial synthesis 
 | **10** | `write_verilog -noattr good_mux_netlist.v` | **Saves the final synthesized netlist to a file.** | 📝 Yosys | Creates the netlist file for subsequent Gate-Level Simulation (GLS). |
 | **11** | `stat` | **Displays the final cell count and design hierarchy statistics.** | 📊 Yosys | Confirms final area/cell usage (1 MUX cell). |
 | **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
-**Output Visualization (Task 1):**
-![Alt text](your_copied_url)
-
 ---
+**Output Visualization (Task 1):**
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-09-27%20at%2011.05.27%20PM.jpeg)
 
 ## 💻Day 2 Log - Hierarchical Synthesis Experiments 🧠
 
