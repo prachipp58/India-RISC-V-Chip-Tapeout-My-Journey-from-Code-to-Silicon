@@ -156,7 +156,7 @@ This log documents three separate synthesis runs on the `multiple_modules.v` des
 ---
 **Output Visualization (Task 2):**
 
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-09-27%20at%2011.30.04%20PM.jpeg)
 
 ### 🧪**Experiment 3: Sub-Module Level Synthesis**
 
