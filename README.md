@@ -380,5 +380,69 @@ The experiment successfully demonstrated the functional failure caused by the **
 | Status | Result | Fix |
 | :--- | :--- | :--- |
 | **Mismatch Status** | **GLS Failed (❌)** | Replace all blocking assignments (`=`) with **non-blocking assignments (`<=`)** in sequential (`always @(posedge clk)`) blocks. |
+
+## 💻 Day 5: RTL Optimization and Synthesis Best Practices
+
+Day 5 focused on advanced RTL coding practices essential for efficient synthesis, primarily analyzing how complex structures like conditional statements (`if-else`, `case`) and repetition constructs (`generate`) map to efficient hardware. The central objective was to understand the synthesis tool's interpretation and **eliminate unintentional latch inference** and **avoid area/timing bottlenecks**.
+
+***
+
+## 1. 🛑 Synthesis Caveat 1: Avoiding Unintentional Latch Inference
+
+The first set of labs highlighted the critical error of writing **incomplete combinatorial logic**, which forces the synthesizer (Yosys) to infer latches. Latches are generally undesirable in synchronous design because they complicate timing analysis.
+
+### Observation: Incomplete Conditional Logic
+
+| RTL Construct | Synthesis Implication | Verification Status |
+| :--- | :--- | :--- |
+| **Incomplete `if-else`** (Missing final `else`) | The output variable is not assigned under all possible conditions. Yosys is forced to infer a **Transparent Latch** to hold the previous value. | **GLS Failure (❌)** |
+| **Incomplete `case`** (Missing `default` case) | The output state is ambiguous when the selector doesn't match any defined case. This also results in a **Transparent Latch** inference. | **GLS Failure (❌)** |
+
+### Best Practice 💡
+Always use the **`always @*`** syntax and ensure every output signal is assigned a value in **all branches** of the conditional logic (`if/else` or `case/default`) within a combinatorial block.
+
+| Image |
+| :--- |
+| **** |
+
+***
+
+## 2. ⚡ Synthesis Caveat 2: Structure vs. Performance (`if` vs. `case`)
+
+This experiment analyzed the hardware structures resulting from priority-based versus parallel conditional logic, showing how RTL choice directly impacts the resulting critical path.
+
+### Observation: Priority Encoding vs. Parallelism
+
+| RTL Construct | Hardware Mapping | Performance Implication |
+| :--- | :--- | :--- |
+| **Cascading `if-else if`** | Maps directly to a **Priority Encoder Chain**. The first condition has the highest priority. | **Slower (Critical Path)** increases linearly with the number of conditions, as each stage must wait for the previous one to fail. |
+| **`case` Statement** | Maps to a highly parallel **Multiplexer (MUX) Tree** structure. | **Faster (Area/Speed Trade-off)**. Provides near-simultaneous evaluation, resulting in a shallower, faster logic path. |
+
+### Best Practice 💡
+Use **`case` statements** (and ensure they are complete) for decoding parallel/mutually exclusive conditions, and restrict cascading **`if-else if`** logic only where genuine priority is required.
+
+| Image |
+| :--- |
+| **** |
+
+***
+
+## 3. ⚙️ Synthesis Best Practice: Scalability with `generate`
+
+The final lab series focused on generating highly repetitive and scalable hardware structures using **`for generate`** blocks, a crucial technique for large-scale physical design.
+
+### Observation: Compile-Time Instantiation
+
+| RTL Construct | Execution Time | Synthesizable Use Case |
+| :--- | :--- | :--- |
+| **Standard `for` loop** | Runtime (Simulation only) | Used for control/sequencing in a testbench or sequential block. **Not synthesizable for hardware replication.** |
+| **`for generate`** | **Compile-time** (Synthesis only) | Essential for creating **parallel arrays** of hardware (e.g., registers, adders, I/O buffers) by instantiating modules based on a loop count. |
+
+### Best Practice 💡
+For creating scalable, repetitive parallel hardware—such as the array of DFFs demonstrated in the lab—the **`for generate`** loop with a **`genvar`** must be used. This allows the synthesizer to efficiently replicate the target standard cells across the netlist.
+
+| Image |
+| :--- |
+| **** |
 </details>
 
