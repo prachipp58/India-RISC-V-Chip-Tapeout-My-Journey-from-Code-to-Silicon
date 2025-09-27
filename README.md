@@ -210,7 +210,7 @@ yosys> write_verilog -noattr synth_opt_check2.v
 # 8. Visualize the Synthesized Netlist
 yosys> show
    ```
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-09-27%20at%2011.37.05%20PM.jpeg)
 
 ### 🧪**Experiment2: Hierarchical Synthesis of `multiple_module_opt2`**
 
