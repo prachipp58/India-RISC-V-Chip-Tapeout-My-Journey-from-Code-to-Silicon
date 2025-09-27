@@ -243,7 +243,7 @@ yosys> abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
 yosys> show
 # This command generates the netlist visualization using an external viewer (e.g., xdot).
 ```
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-09-27%20at%2011.37.54%20PM.jpeg)
 
 ## 🧪 Experiment 3: Sequential Logic Mapping and Optimization
 
