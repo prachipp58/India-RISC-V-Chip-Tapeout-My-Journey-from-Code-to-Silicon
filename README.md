@@ -113,7 +113,7 @@ This log documents the commands for environment setup and the initial synthesis 
 | **12** | `exit` | **Exits the Yosys shell.** | 🚪 Yosys | Returns control to the Linux shell. |
 **Output Visualization (Task 1):**
 
-[PLACEHOLDER: Image for Task 1 - Hierarchical Synthesis]
+![GLS Waveform Showing Mismatch](images/day4_gls_mismatch.png)
 
 ---
 
