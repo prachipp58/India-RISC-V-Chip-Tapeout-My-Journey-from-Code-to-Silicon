@@ -444,5 +444,21 @@ For creating scalable, repetitive parallel hardware—such as the array of DFFs 
 | Image |
 | :--- |
 | **** |
+# 🎓 Week 1 Key Learnings: From RTL to Synthesis Optimization
+
+This week covered the fundamental digital VLSI flow, emphasizing practical RTL coding for efficient hardware synthesis using the **Sky130 PDK** and **Yosys**.
+
+## 1. ⚙️ Core Synthesis & Mapping
+* **Translation:** Successfully converted abstract RTL into technology-specific gate-level netlists using **Yosys** and the **ABC mapper**.
+* **Foundation:** Confirmed functional equivalence of basic combinatorial and sequential designs (MUX, D-FFs) after mapping to **Sky130 standard cells**.
+
+## 2. ❌ Synthesis-Simulation Mismatch (The Debug Focus)
+* **Sensitivity Error:** Demonstrated that incomplete combinatorial logic (`always @(...)` missing signals) leads to **GLS failure (❌)**, requiring the use of **`always @*`** or complete assignment coverage.
+* **Sequential Error:** Proved that using **blocking assignments (`=`)** in clocked (`always @(posedge clk)`) blocks destroys intended sequential logic (like shift registers), confirming the mandate for **non-blocking assignments (`<=`)**.
+
+## 3. 💡 RTL Optimization & Best Practices
+* **Latch Avoidance:** Learned that failing to assign an output in all conditional branches (`if/else` or `case/default`) forces the synthesizer to infer an unwanted **Latch**.
+* **Performance:** Understood that deep **`if-else if`** chains create slow **Priority Encoder** logic, favoring parallel **`case` statements** for speed.
+* **Scalability:** Mastered the **`for generate`** construct, essential for creating scalable, parallel hardware arrays (e.g., arrays of DFFs) at compile-time.
 </details>
 
