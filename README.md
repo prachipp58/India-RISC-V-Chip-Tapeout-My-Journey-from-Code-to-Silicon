@@ -308,7 +308,7 @@ Yosys synthesizes the flawed RTL. Instead of inferring a latch (the classic erro
 | **Note:** `Recommending use of @* instead of @(...)` | Confirms the use of an incomplete sensitivity list, which is the **RTL bug**. |
 | **Check:** `No latch inferred for signal \bad_mux.\y'` | Confirms the netlist contains **purely combinatorial logic** (`sky130_fd_sc_hd__mux2_1`), meaning the hardware updates instantly with any input change. |
 ---
-
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.35.55%20AM.jpeg)
 ### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
 
 The Gate-Level Simulation (GLS) using the synthesized netlist (`synth_bad_mux.v`) exposes the functional mismatch between the ideal RTL simulation and the actual netlist behavior.
@@ -317,7 +317,7 @@ The Gate-Level Simulation (GLS) using the synthesized netlist (`synth_bad_mux.v`
 | :--- | :--- |
 | ```bash # Run GLS on the synthesized netlist iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v synth_bad_mux.v tb_bad_mux.v ./a.out ``` | **GLS FAIL (Mismatch):** The **Netlist (GLS)** output updates **instantly** when any input changes (correct hardware behavior). The overlaid **RTL waveform** shows a **functional failure** or **delayed update** where the output failed to update instantly due to the missing signal in the sensitivity list. |
 ---
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.35.55%20AM.jpeg)
 
 ### 🛑 Final Conclusion and Verification Status
 
