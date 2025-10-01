@@ -308,7 +308,7 @@ Yosys synthesizes the flawed RTL. Instead of inferring a latch (the classic erro
 | **Note:** `Recommending use of @* instead of @(...)` | Confirms the use of an incomplete sensitivity list, which is the **RTL bug**. |
 | **Check:** `No latch inferred for signal \bad_mux.\y'` | Confirms the netlist contains **purely combinatorial logic** (`sky130_fd_sc_hd__mux2_1`), meaning the hardware updates instantly with any input change. |
 ---
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.12.56%20AM.jpeg)
 
 ### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
 
