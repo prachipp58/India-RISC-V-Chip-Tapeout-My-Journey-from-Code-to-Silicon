@@ -297,7 +297,7 @@ The initial simulation of the original RTL code (`bad_mux.v`) runs successfully,
 | :--- | :--- |
 | ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v bad_mux.v tb_bad_mux.v ./a.out ``` | **RTL PASS:** The simulator follows its internal scheduling rules, honoring the explicit (but incorrect) sensitivity list. The output appears **functionally correct**, misleading the designer. |
 ---
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.11.07%20AM.jpeg)
 
 ### Step 2: Synthesis and Netlist Analysis
 
@@ -334,12 +334,8 @@ The RTL code, using blocking assignments (`=`), passes the simulation check, mas
 | Command Sequence | Observation |
 | :--- | :--- |
 | ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v blocking_caveat.v tb_blocking_caveat.v ./a.out VCD info: dumpfile tb_blocking_caveat.vcd opened for output. tb_blocking_caveat.v:24: $finish called at 3000000 (1ps) ``` | **RTL PASS:** Simulator executes assignments **sequentially** (correcting the designer's intent) and the logic appears functional (e.g., shifting) in simulation. |
-
-| Image |
-| :--- |
-| **** |
-
 ---
+![Alt text](https://www.example.com/your-image.png)
 
 ### Step 2: Synthesis and Netlist Analysis
 
