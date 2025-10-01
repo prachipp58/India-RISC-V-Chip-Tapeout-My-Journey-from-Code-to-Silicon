@@ -297,7 +297,6 @@ The initial simulation of the original RTL code (`bad_mux.v`) runs successfully,
 | :--- | :--- |
 | ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v bad_mux.v tb_bad_mux.v ./a.out ``` | **RTL PASS:** The simulator follows its internal scheduling rules, honoring the explicit (but incorrect) sensitivity list. The output appears **functionally correct**, misleading the designer. |
 ---
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.11.07%20AM.jpeg)
 
 ### Step 2: Synthesis and Netlist Analysis
 
@@ -308,7 +307,6 @@ Yosys synthesizes the flawed RTL. Instead of inferring a latch (the classic erro
 | **Note:** `Recommending use of @* instead of @(...)` | Confirms the use of an incomplete sensitivity list, which is the **RTL bug**. |
 | **Check:** `No latch inferred for signal \bad_mux.\y'` | Confirms the netlist contains **purely combinatorial logic** (`sky130_fd_sc_hd__mux2_1`), meaning the hardware updates instantly with any input change. |
 ---
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.12.56%20AM.jpeg)
 
 ### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
 
@@ -335,7 +333,7 @@ The RTL code, using blocking assignments (`=`), passes the simulation check, mas
 | :--- | :--- |
 | ```bash iverilog ../my_lib/verilog_model/primitives.v ../my_lib/verilog_model/sky130_fd_sc_hd.v blocking_caveat.v tb_blocking_caveat.v ./a.out VCD info: dumpfile tb_blocking_caveat.vcd opened for output. tb_blocking_caveat.v:24: $finish called at 3000000 (1ps) ``` | **RTL PASS:** Simulator executes assignments **sequentially** (correcting the designer's intent) and the logic appears functional (e.g., shifting) in simulation. |
 ---
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.11.07%20AM.jpeg)
 
 ### Step 2: Synthesis and Netlist Analysis
 
@@ -345,12 +343,8 @@ The synthesizer (Yosys) correctly infers **parallel D-Flip-Flops (DFFs)** based 
 | :--- | :--- |
 | **Yosys Flow:** `synth -top blocking_caveat` | Yosys will infer **parallel DFFs** (using `$dff` cells) because it correctly ignores the sequential semantics of the blocking operator in a clocked block. |
 | **Netlist Structure:** Parallel DFFs | The netlist will feature **parallel DFFs**, destroying the intended sequential dependency (e.g., the shifting action). |
-
-| Image |
-| :--- |
-| **** |
-
 ---
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.23.30%20AM%20(1).jpeg)
 
 ### Step 3: Post-Synthesis (GLS) Simulation (GLS Fail - Mismatch Exposed)
 
@@ -359,12 +353,8 @@ The GLS on the synthesized netlist (`synth_blocking_caveat.v`) will expose the f
 | Command Sequence | Result |
 | :--- | :--- |
 | ```bash # Run GLS on the synthesized netlist iverilog ... sky130_fd_sc_hd.v synth_blocking_caveat.v tb_blocking_caveat.v ./a.out ``` | **GLS FAIL (Mismatch):** The **Netlist (GLS)** output exhibits **parallel behavior** (all DFFs updating from the same source) instead of the intended sequential/shift register behavior. |
-
-| Image |
-| :--- |
-| **** |
-
 ---
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.12.56%20AM.jpeg)
 
 ### 🛑 Final Conclusion for Experiment 2
 
