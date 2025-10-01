@@ -369,8 +369,6 @@ The experiment successfully demonstrated the functional failure caused by the **
 
 Day 5 focused on advanced RTL coding practices essential for efficient synthesis, primarily analyzing how complex structures like conditional statements (`if-else`, `case`) and repetition constructs (`generate`) map to efficient hardware. The central objective was to understand the synthesis tool's interpretation and **eliminate unintentional latch inference** and **avoid area/timing bottlenecks**.
 
-***
-
 ## 1. 🛑 Synthesis Caveat 1: Avoiding Unintentional Latch Inference
 
 The first set of labs highlighted the critical error of writing **incomplete combinatorial logic**, which forces the synthesizer (Yosys) to infer latches. Latches are generally undesirable in synchronous design because they complicate timing analysis.
@@ -384,12 +382,6 @@ The first set of labs highlighted the critical error of writing **incomplete com
 
 ### Best Practice 💡
 Always use the **`always @*`** syntax and ensure every output signal is assigned a value in **all branches** of the conditional logic (`if/else` or `case/default`) within a combinatorial block.
-
-| Image |
-| :--- |
-| **** |
-
-***
 
 ## 2. ⚡ Synthesis Caveat 2: Structure vs. Performance (`if` vs. `case`)
 
@@ -405,12 +397,6 @@ This experiment analyzed the hardware structures resulting from priority-based v
 ### Best Practice 💡
 Use **`case` statements** (and ensure they are complete) for decoding parallel/mutually exclusive conditions, and restrict cascading **`if-else if`** logic only where genuine priority is required.
 
-| Image |
-| :--- |
-| **** |
-
-***
-
 ## 3. ⚙️ Synthesis Best Practice: Scalability with `generate`
 
 The final lab series focused on generating highly repetitive and scalable hardware structures using **`for generate`** blocks, a crucial technique for large-scale physical design.
@@ -425,9 +411,6 @@ The final lab series focused on generating highly repetitive and scalable hardwa
 ### Best Practice 💡
 For creating scalable, repetitive parallel hardware—such as the array of DFFs demonstrated in the lab—the **`for generate`** loop with a **`genvar`** must be used. This allows the synthesizer to efficiently replicate the target standard cells across the netlist.
 
-| Image |
-| :--- |
-| **** |
 # 🎓 Week 1 Key Learnings: From RTL to Synthesis Optimization
 
 This week covered the fundamental digital VLSI flow, emphasizing practical RTL coding for efficient hardware synthesis using the **Sky130 PDK** and **Yosys**.
@@ -445,4 +428,6 @@ This week covered the fundamental digital VLSI flow, emphasizing practical RTL c
 * **Performance:** Understood that deep **`if-else if`** chains create slow **Priority Encoder** logic, favoring parallel **`case` statements** for speed.
 * **Scalability:** Mastered the **`for generate`** construct, essential for creating scalable, parallel hardware arrays (e.g., arrays of DFFs) at compile-time.
 </details>
-
+<details>
+<summary><b> 📅 Week 2 </b></summary>
+</details>
