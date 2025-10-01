@@ -277,7 +277,7 @@ yosys> stat
 # 8. Output the Final Gate-Level Netlist
 yosys> write_verilog -noattr synth_dff_const5.v
 ```
-![Alt text](https://www.example.com/your-image.png)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
 
 ## 💻 Day 4: Comprehensive Analysis of Synthesis-Simulation Mismatch
 
