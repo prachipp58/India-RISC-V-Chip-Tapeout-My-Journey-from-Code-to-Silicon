@@ -429,5 +429,68 @@ This week covered the fundamental digital VLSI flow, emphasizing practical RTL c
 * **Scalability:** Mastered the **`for generate`** construct, essential for creating scalable, parallel hardware arrays (e.g., arrays of DFFs) at compile-time.
 </details>
 <details>
-<summary><b> 📅 Week 2 </b></summary>
+<summary><b> 📅 Week 2- System-on-Chip (SoC) Fundamentals and VSDBabySoC Functional Verification </b></summary>
+
+This report documents the conceptual understanding of System-on-Chip (SoC) architecture and the practical functional verification of the **VSDBabySoC**—a minimal RISC-V platform—using the Icarus Verilog (`iverilog`) and GTKWave open-source toolchain.
+
+---
+
+## Part I: Conceptual Foundations of SoC Design
+
+### 1.1 The Definition and Architecture of an SoC
+
+A **System-on-Chip (SoC)** is a complete electronic system integrated onto a single semiconductor die. It represents a paradigm shift from the traditional multi-chip motherboard to a single, highly optimized unit, driving modern electronics from smartphones to IoT devices.
+
+**Analogy: The Digital Ecosystem**
+An SoC is not just a collection of parts, but a cohesive digital ecosystem. The **CPU** is the processing hub, the **Interconnect** (Bus Fabric) is the communication network, and the **Peripherals** (I/O) are the interfaces to the external world, all regulated by a synchronized **Clock** system.
+
+| Component | Role in SoC | RISC-V Context |
+| :--- | :--- | :--- |
+| **CPU Core** | Executes all general-purpose instruction logic. | **RVMYTH** (a lightweight RISC-V implementation) |
+| **Interconnect** | Facilitates high-speed communication between IPs (e.g., AHB, AXI). | Connects RVMYTH, PLL, and DAC IPs |
+| **Memory** | Stores instructions (IMEM) and runtime data (DMEM). | Holds the hardcoded program driving the DAC |
+| **PLL** (Clocking) | Generates and stabilizes system clock signals. | Provides the core **`clk`** signal to RVMYTH |
+| **Peripherals** | Specialized interfaces for external interaction (e.g., DAC, UART). | **10-bit DAC** for Digital-to-Analog conversion |
+
+
+
+### 1.2 The Significance of the VSDBabySoC Model
+
+The **VSDBabySoC** serves as an ideal **Minimum Viable Product (MVP)** for learning SoC concepts.
+
+1.  **Simplification:** By including only three primary IPs (**RVMYTH, PLL, DAC**), it eliminates the complexity of advanced caches, MMUs, and large OS requirements, allowing students to focus on the essential **CPU-Peripheral data path**.
+2.  **Mixed-Signal Integration:** It demonstrates the critical challenge of integrating **Digital (RVMYTH)** and **Analog (DAC)** blocks on a single chip, which is fundamental to modern VLSI design.
+3.  **Open-Source Flow:** It utilizes open standards (RISC-V ISA) and open-source tools (Icarus, GTKWave, Sky130 PDK), making the entire flow transparent and accessible for educational purposes.
+
+### 1.3 Role of Functional Modeling in the VLSI Flow
+
+**Functional Modeling**, also known as **Pre-Synthesis Simulation**, is the crucial **'Shift-Left'** activity in the VLSI (Very Large Scale Integration) design flow.
+
+* **Objective:** To verify the **behavioral correctness** of the RTL (Register-Transfer Level) code *before* it is translated into a physical netlist (synthesis). It asks: "Does the code perform the intended logical operations?"
+* **Importance:** Catching a functional bug at the RTL stage (using `iverilog`) costs fractions of a penny. Catching the same bug after synthesis or, worse, after tapeout, can cost millions of dollars and months of delay. It ensures the design adheres to the ISA and system specification.
+
+
+
+---
+
+## Part II: Hands-on Functional Verification
+
+### 2.1 Toolchain Setup and TLV Conversion
+
+The RVMYTH core is written in **TL-Verilog (.tlv)**, which requires conversion to standard Verilog before simulation.
+
+| Step | Command Executed | Purpose |
+| :--- | :--- | :--- |
+| **1. TLV Conversion** | `sandpiper-saas -i ./src/module/*.tlv -o rvmyth.v --bestsv --outdir ./src/module/` | Translates the high-level RVMYTH source into standard RTL. |
+| **2. Compilation** | `iverilog -o output/pre_synth_sim/pre_synth_sim.out -DPRE_SYNTH_SIM ...` | Compiles the Testbench, RVMYTH, PLL, and DAC modules into an executable binary. |
+| **3. Simulation** | `./pre_synth_sim.out` | Executes the binary, running the CPU's program and generating the `pre_synth_sim.vcd` waveform file. |
+
+#### Simulation Logs
+
+```bash
+# Log for TLV -> Verilog Conversion (sandpiper-saas)
+[INSERT TLV CONVERSION LOG HERE]
+
+# Log for Icarus Verilog Compilation (iverilog)
+[INSERT IVERILOG COMPILATION LOG HERE]
 </details>
