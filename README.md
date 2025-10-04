@@ -431,6 +431,7 @@ This week covered the fundamental digital VLSI flow, emphasizing practical RTL c
 <details>
 <summary><b> 📅 Week 2- System-on-Chip (SoC) Fundamentals and VSDBabySoC Functional Verification </b></summary>
 
+
 This report documents the conceptual understanding of System-on-Chip (SoC) architecture and the practical functional verification of the **VSDBabySoC**—a minimal RISC-V platform—using the Icarus Verilog (`iverilog`) and GTKWave open-source toolchain.
 
 ---
