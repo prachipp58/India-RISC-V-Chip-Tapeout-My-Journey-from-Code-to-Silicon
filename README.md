@@ -429,7 +429,7 @@ This week covered the fundamental digital VLSI flow, emphasizing practical RTL c
 * **Scalability:** Mastered the **`for generate`** construct, essential for creating scalable, parallel hardware arrays (e.g., arrays of DFFs) at compile-time.
 </details>
 <details>
-<summary><b> 📅 Week 2- System-on-Chip (SoC) Fundamentals and VSDBabySoC Functional Verification </b></summary>
+<summary><b> 📅 Week 2- System-on-Chip (SoC) Fundamentals and BabySoC Functional Verification </b></summary>
 
 
 This report documents the conceptual understanding of System-on-Chip (SoC) architecture and the practical functional verification of the **VSDBabySoC**—a minimal RISC-V platform—using the Icarus Verilog (`iverilog`) and GTKWave open-source toolchain.
@@ -494,4 +494,9 @@ The RVMYTH core is written in **TL-Verilog (.tlv)**, which requires conversion t
 
 # Log for Icarus Verilog Compilation (iverilog)
 [INSERT IVERILOG COMPILATION LOG HERE]
+```
+</details>
+<details>
+<summary><b> 📅 Week 3- Post Synthesis GLS & STA Fundamentals </b></summary>
+
 </details>
