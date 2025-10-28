@@ -511,3 +511,12 @@ The RVMYTH core is written in **TL-Verilog (.tlv)**, which requires conversion t
 <summary><b> 📅 Week 3- Post Synthesis GLS & STA Fundamentals </b></summary>
 
 </details>
+<details>
+<summary><b> 📅 Week 4- CMOS Circuit Design & Analysis using SkyWater 130nm PDK </b></summary>
+
+</details>
+<details>
+<summary><b> 📅 Week 5- OpenROAD Flow Setup and Floorplan + Placement </b></summary>
+
+</details>
+
