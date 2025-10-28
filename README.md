@@ -487,25 +487,136 @@ By using tools like **Icarus Verilog** for simulation and **GTKWave** for wavefo
 ---
 ## Part II: Hands-on Functional Verification
 
-### 2.1 Toolchain Setup and TLV Conversion
+### I. Core Component Definitions
 
-The RVMYTH core is written in **TL-Verilog (.tlv)**, which requires conversion to standard Verilog before simulation.
+The VSDBabySoC is a mixed-signal design built around three essential components:
 
-| Step | Command Executed | Purpose |
+| Component | Definition | Role in SoC |
 | :--- | :--- | :--- |
-| **1. TLV Conversion** | `sandpiper-saas -i ./src/module/*.tlv -o rvmyth.v --bestsv --outdir ./src/module/` | Translates the high-level RVMYTH source into standard RTL. |
-| **2. Compilation** | `iverilog -o output/pre_synth_sim/pre_synth_sim.out -DPRE_SYNTH_SIM ...` | Compiles the Testbench, RVMYTH, PLL, and DAC modules into an executable binary. |
-| **3. Simulation** | `./pre_synth_sim.out` | Executes the binary, running the CPU's program and generating the `pre_synth_sim.vcd` waveform file. |
+| **RVMYTH** | A simple **RISC-V based CPU core** designed for educational purposes and small-scale applications. | Fetches, decodes, and executes instructions, driving output data through register **r17**. |
+| **PLL** | **Phase-Locked Loop:** A control system that generates an output signal whose phase is related to the input signal's phase. | Generates a clean, stable system clock (**CLK**) for synchronization and timing distribution. |
+| **DAC** | **Digital-to-Analog Converter:** A system that converts a digital signal (usually a data bus) into a proportional analog voltage. | Enables the SoC to generate digitally-defined transmission or output signals (**OUT**). |
 
-#### Simulation Logs
+### II. The Design Structure
+The project directory is organized to separate source code, headers, and outputs:
+
+```text
+VSDBabySoC/
+├── src/
+│   ├── include/      # Header files (*.vh) with macros/parameters
+│   ├── module/       # Verilog and TLV files for core modules
+│   │   ├── vsdbabysoc.v   # Top-level module
+│   │   ├── rvmyth.v       # RISC-V CPU Core
+│   │   ├── avsdpll.v      # PLL module
+│   │   ├── avsddac.v      # DAC module
+│   │   └── testbench.v    # Testbench for simulation
+└── output/           # Directory for compiled outputs and VCD files
+    └── compiled_tlv/ # Holds compiled intermediate files (if needed)
+```
+### 2. 🛠️ LAB EXECUTION: SETUP & TLV CONVERSION
+
+The functional verification process requires converting the **RVMYTH** core from **TL-Verilog (`.tlv`)** to standard **Verilog (`.v`)** before the entire design can be compiled and simulated.
+
+---
+
+#### 2.1. Cloning the Project
+
+The first step is to clone the VSDBabySoC repository to set up the project directory structure.
 
 ```bash
-# Log for TLV -> Verilog Conversion (sandpiper-saas)
-[INSERT TLV CONVERSION LOG HERE]
-
-# Log for Icarus Verilog Compilation (iverilog)
-[INSERT IVERILOG COMPILATION LOG HERE]
+cd ~/VLSI
+# Clone the VSDBabySoC repository
+git clone [https://github.com/manili/VSDBabySoC.git](https://github.com/manili/VSDBabySoC.git)
+# Navigate into the project directory
+cd VSDBabySoC/
 ```
+#### 2.2. TLV to Verilog Conversion Steps
+This process uses the SandPiper-SaaS tool within an isolated Python virtual environment to perform the hardware description language conversion.
+
+---
+```bash
+
+# Step 1: Install required system packages
+sudo apt update
+sudo apt install python3-venv python3-pip
+
+# Step 2: Create and activate a virtual environment
+python3 -m venv sp_env
+source sp_env/bin/activate
+
+# Step 3: Install SandPiper-SaaS inside the virtual environment
+pip install pyyaml click sandpiper-saas
+
+# Step 4: Convert rvmyth.tlv to Verilog (rvmyth.v)
+# The -i flag specifies the input (.tlv), and -o specifies the output (.v)
+sandpiper-saas -i ./src/module/*.tlv -o rvmyth.v --bestsv --noline -p verilog --outdir ./src/module/
+```
+Verification: After execution, the rvmyth.v file is now present in src/module/, ready for Icarus Verilog compilation with the rest of the design.
+### 3. 🧪 SIMULATION FLOW (Part 2: Pre-Synthesis)
+The pre-synthesis simulation verifies the design's zero-delay functionality before synthesis.
+---
+#### 3.1. Compile and Run Simulation
+The commands use absolute paths to ensure the compiler correctly finds all header and module files.
+
+```Bash
+
+# Navigate to the project base
+cd ~/VLSI/VSDBabySoC/
+
+# 1. Create the output directory
+mkdir -p output/pre_synth_sim
+
+# 2. Compile all modules using iverilog
+# -DPRE_SYNTH_SIM defines the macro for the testbench
+iverilog -o ~/VLSI/VSDBabySoC/output/pre_synth_sim/pre_synth_sim.out \
+  -DPRE_SYNTH_SIM \
+  -I ~/VLSI/VSDBabySoC/src/include \
+  -I ~/VLSI/VSDBabySoC/src/module \
+  ~/VLSI/VSDBabySoC/src/module/testbench.v
+
+# 3. Execute the compiled file (vvp runtime engine)
+cd output/pre_synth_sim
+./pre_synth_sim.out
+# Result: Generates the pre_synth_sim.vcd waveform file.
+```
+#### 3.2. Viewing Waveform in GTKWave
+```Bash
+
+# Navigate back to the project base (optional)
+cd ~/VLSI/VSDBabySoC/
+
+# Open the VCD file
+gtkwave output/pre_synth_sim/pre_synth_sim.vcd
+```
+Signal Selection: Drag and drop the following key signals from the hierarchy to the waveform panel: CLK, reset, RV_TO_DAC[9:0] (r17), and OUT (DAC).
+### 4. 📈 ANALYSIS & VERIFICATION
+
+#### 4.1. Signals to Observe
+
+To verify the mixed-signal functionality of the BabySoC, the following signals must be observed in GTKWave:
+
+| Signal Name | Source | Purpose | GTKWave Format |
+| :--- | :--- | :--- | :--- |
+| **`CLK`** | PLL | System clock (from PLL). | Digital |
+| **`reset`** | External | System-wide reset. | Digital |
+| **`RV_TO_DAC[9:0]`** | RVMYTH (r17) | 10-bit digital value driving the DAC input. | Hex/Decimal |
+| **`OUT`** | DAC | Final analog voltage output of the SoC. | **Analog Step** (to visualize voltage swing) |
+
+#### 4.2. Pre-Synthesis Waveform Results
+
+The CPU executes a specific instruction program designed to generate a unique voltage sequence at the DAC output, testing the full data path from the RISC-V core to the analog output.
+
+##### Functional Verification of DAC Data Path
+
+**[Insert Screenshot of Pre-Synthesis Waveform: DAC Data Path (RV_TO_DAC and OUT) Here]**
+
+**Observation & Explanation:**
+The waveform confirms the functional correctness of both the instruction execution and the digital-to-analog interface.
+
+1.  The digital signal **`RV_TO_DAC[9:0]`** (which corresponds to the CPU's register **r17**) is clearly shown transitioning from the base level of **903** to the program's peak value of **946**. This validates the internal logic of the RVMYTH core.
+2.  The **`OUT`** signal, which represents the real analog voltage, is viewed in the **Analog Step** format. This signal faithfully tracks the digital input value, verifying the integrity and correct operation of the **RVMYTH → DAC flow**.
+### Viewing DAC output in analog mode
+Drag and drop the CLK, reset, OUT (DAC) (as analog step), and RV TO DAC [9:0] signals to their respective locations in the simulation tool
 </details>
 <details>
 <summary><b> 📅 Week 3- Post Synthesis GLS & STA Fundamentals </b></summary>
