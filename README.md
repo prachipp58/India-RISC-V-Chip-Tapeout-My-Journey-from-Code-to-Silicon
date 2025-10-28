@@ -430,50 +430,61 @@ This week covered the fundamental digital VLSI flow, emphasizing practical RTL c
 </details>
 <details>
 <summary><b> 📅 Week 2- System-on-Chip (SoC) Fundamentals and VSDBabySoC Functional Verification </b></summary>
+---
 
-
-This report documents the conceptual understanding of System-on-Chip (SoC) architecture and the practical functional verification of the **VSDBabySoC**—a minimal RISC-V platform—using the Icarus Verilog (`iverilog`) and GTKWave open-source toolchain.
+## 🌟 Project Goal
+To develop a **solid understanding** of **System-on-Chip (SoC)** design fundamentals and apply this knowledge by practicing **functional modelling** of the **BabySoC** using **Icarus Verilog** and **GTKWave**.
 
 ---
 
 ## Part I: Conceptual Foundations of SoC Design
 
-### 1.1 The Definition and Architecture of an SoC
+### I. What is a System-on-Chip (SoC)?
 
-A **System-on-Chip (SoC)** is a complete electronic system integrated onto a single semiconductor die. It represents a paradigm shift from the traditional multi-chip motherboard to a single, highly optimized unit, driving modern electronics from smartphones to IoT devices.
+A **System-on-Chip (SoC)** is an **integrated circuit (IC)** that integrates *all* or most components of a computer or other electronic system into a **single silicon chip**. This architecture provides critical benefits for modern electronics, such as smaller size, lower power consumption, and improved performance due to component proximity.
 
-**Analogy: The Digital Ecosystem**
-An SoC is not just a collection of parts, but a cohesive digital ecosystem. The **CPU** is the processing hub, the **Interconnect** (Bus Fabric) is the communication network, and the **Peripherals** (I/O) are the interfaces to the external world, all regulated by a synchronized **Clock** system.
+#### Anatomy of a Typical SoC 🧠
 
-| Component | Role in SoC | RISC-V Context |
-| :--- | :--- | :--- |
-| **CPU Core** | Executes all general-purpose instruction logic. | **RVMYTH** (a lightweight RISC-V implementation) |
-| **Interconnect** | Facilitates high-speed communication between IPs (e.g., AHB, AXI). | Connects RVMYTH, PLL, and DAC IPs |
-| **Memory** | Stores instructions (IMEM) and runtime data (DMEM). | Holds the hardcoded program driving the DAC |
-| **PLL** (Clocking) | Generates and stabilizes system clock signals. | Provides the core **`clk`** signal to RVMYTH |
-| **Peripherals** | Specialized interfaces for external interaction (e.g., DAC, UART). | **10-bit DAC** for Digital-to-Analog conversion |
+A typical SoC is a complex architecture made up of four primary, interconnected blocks:
 
-
-
-### 1.2 The Significance of the VSDBabySoC Model
-
-The **VSDBabySoC** serves as an ideal **Minimum Viable Product (MVP)** for learning SoC concepts.
-
-1.  **Simplification:** By including only three primary IPs (**RVMYTH, PLL, DAC**), it eliminates the complexity of advanced caches, MMUs, and large OS requirements, allowing students to focus on the essential **CPU-Peripheral data path**.
-2.  **Mixed-Signal Integration:** It demonstrates the critical challenge of integrating **Digital (RVMYTH)** and **Analog (DAC)** blocks on a single chip, which is fundamental to modern VLSI design.
-3.  **Open-Source Flow:** It utilizes open standards (RISC-V ISA) and open-source tools (Icarus, GTKWave, Sky130 PDK), making the entire flow transparent and accessible for educational purposes.
-
-### 1.3 Role of Functional Modeling in the VLSI Flow
-
-**Functional Modeling**, also known as **Pre-Synthesis Simulation**, is the crucial **'Shift-Left'** activity in the VLSI (Very Large Scale Integration) design flow.
-
-* **Objective:** To verify the **behavioral correctness** of the RTL (Register-Transfer Level) code *before* it is translated into a physical netlist (synthesis). It asks: "Does the code perform the intended logical operations?"
-* **Importance:** Catching a functional bug at the RTL stage (using `iverilog`) costs fractions of a penny. Catching the same bug after synthesis or, worse, after tapeout, can cost millions of dollars and months of delay. It ensures the design adheres to the ISA and system specification.
-
-
+1.  **CPU (Central Processing Unit) / Processor Core:** The computational "brain" responsible for executing software instructions and controlling the system.
+2.  **Memory Subsystem:** Includes different types of memory (like SRAM and DRAM) and the necessary controllers for storing code and data for the CPU.
+3.  **Peripherals:** These are specialized Input/Output (I/O) blocks that enable the SoC to interact with the outside world and perform specific functions (e.g., UARTs, Timers, ADCs).
+4.  **Interconnect:** The communication highway (Bus or Network-on-Chip) that allows all the components (CPU, memory, peripherals) to efficiently transfer data.
 
 ---
 
+### II. Why BabySoC is Your Learning Supertool 👶💻
+
+The **BabySoC** is a **simplified model** designed specifically for learning core SoC concepts.
+
+A full commercial SoC is overwhelming due to the sheer complexity of integrating dozens of heterogeneous components and advanced interconnect standards (like AMBA AXI).
+
+**BabySoC strips away this complexity**, offering a focused, bite-sized environment:
+
+* It contains the **core architectural elements** (CPU, Memory, simplified Peripherals, and an Interconnect) in a minimal configuration.
+* It allows us to **clearly observe the data flow** and interaction between components, making fundamental concepts tangible.
+* It provides a **safe, contained environment** to practice essential skills like functional modelling and verification before tackling industrial-scale systems.
+
+In essence, BabySoC acts as the **ideal training platform** to build foundational knowledge in SoC development.
+
+---
+
+### III. The Critical Role of Functional Modelling 📝
+
+**Functional modelling** is an essential step that occurs **before** the **RTL (Register-Transfer Level) design** and **physical design** stages.
+
+Its primary goal is to **verify the system's intended behavior** and **correctness** at a high level of abstraction, acting as the **"measure twice, cut once"** phase of chip design.
+
+| Design Stage | Focus | Key Role (Why it's essential) |
+| :--- | :--- | :--- |
+| **1. Functional Modelling** | *What* the system should do. High-level algorithm and system architecture. | **Fast verification** of the design specification and system architecture *before* committing to hardware structure. |
+| **2. RTL Design** | *How* the system implements the function using registers and logic gates (Verilog/VHDL code). | Specifies the hardware logic for synthesis. |
+| **3. Physical Design** | *Where* the transistors are placed on the silicon chip (Layout, timing closure). | Creates the final manufacturable silicon mask. |
+
+By using tools like **Icarus Verilog** for simulation and **GTKWave** for waveform visualization, we ensure that the BabySoC's logic is **functionally correct** *before* wasting significant time and resources on developing the full RTL description or moving to physical layout.
+
+---
 ## Part II: Hands-on Functional Verification
 
 ### 2.1 Toolchain Setup and TLV Conversion
