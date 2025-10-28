@@ -519,4 +519,9 @@ The RVMYTH core is written in **TL-Verilog (.tlv)**, which requires conversion t
 <summary><b> 📅 Week 5- OpenROAD Flow Setup and Floorplan + Placement </b></summary>
 
 </details>
+<details>
+<summary><b> 📅 Week 6- Physical Design </b></summary>
+
+</details>
+
 
