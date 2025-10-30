@@ -628,7 +628,113 @@ Drag and drop the CLK, reset, OUT (DAC) (as analog step), and RV TO DAC [9:0] si
 </details>
 <details>
 <summary><b> 📅 Week 5- OpenROAD Flow Setup and Floorplan + Placement </b></summary>
+  
+# **🧩 OpenROAD RTL-to-GDSII Flow Setup and Verification** 
 
+**OpenROAD** is an open-source, fully automated **RTL-to-GDSII flow** for digital IC design.  
+It supports complete backend design stages — **synthesis, floorplanning, placement, CTS (Clock Tree Synthesis), routing**, and **final layout generation**.  
+OpenROAD enables rapid design iterations, making it ideal for **academic research** and **industry prototyping**.
+
+---
+
+## 🚀 Step-by-Step Installation and Execution Guide  
+
+### **1️⃣ Clone the OpenROAD Repository**
+```bash
+git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scripts
+cd OpenROAD-flow-scripts
+```
+📸 Output Screenshot Placeholder (Repository Cloned)
+⚡ 2️⃣ Run the Setup Script
+
+Installs dependencies and prepares all required tools.
+```bash
+sudo ./setup.sh
+```
+
+📸 Output Screenshot Placeholder: ✅ Setup Completed Successfully
+
+🏗️ 3️⃣ Build OpenROAD
+
+Build the OpenROAD tool from source:
+```bash
+./build_openroad.sh --local
+```
+
+📸 Output Screenshot Placeholder: 🧩 Build Completed 100%
+
+🧾 4️⃣ Verify the Installation
+
+If your setup doesn’t include env.sh, export paths manually:
+```bash
+export PATH=$HOME/OpenROAD-flow-scripts/tools/OpenROAD/build/bin:$PATH
+export YOSYS_EXE=$HOME/OpenROAD-flow-scripts/dependencies/bin/yosys
+export OPENROAD_EXE=$HOME/OpenROAD-flow-scripts/tools/OpenROAD/build/bin/openroad
+
+source ./env.sh
+yosys -help
+openroad -help
+```
+
+📸 Output Screenshot Placeholder: ✅ Yosys and OpenROAD Version Verified
+
+🧮 5️⃣ Run the OpenROAD Flow
+
+Execute a sample design (default: gcd):
+```bash
+cd flow
+make
+```
+
+📸 Output Screenshot Placeholder: 🟢 Successful Flow Run — Synthesis → PnR → GDSII
+
+🖥️ 6️⃣ Launch the GUI
+
+Visualize the final layout:
+```bash
+make gui_final
+```
+
+📸 Output Screenshot Placeholder: 🧠 Final Layout Displayed in GUI
+
+✅ Installation Complete!
+You can now explore the full RTL-to-GDSII design flow using OpenROAD.
+
+🗂️ Directory Overview
+📁 Main Structure
+```bash
+OpenROAD-flow-scripts/
+│
+├── docker/         → Docker-based setup scripts and build environments  
+├── docs/           → Documentation and user guides  
+├── flow/           → Core RTL-to-GDSII flow scripts and automation files  
+├── jenkins/        → Regression and CI test scripts  
+├── tools/          → Synthesis, placement, routing, and verification tools  
+├── etc/            → Dependency installer and environment scripts  
+├── setup_env.sh    → Source file for setting environment variables
+```
+📂 Inside the flow/ Directory
+```bash
+flow/
+│
+├── designs/        → Example RTL designs (e.g., gcd, aes)  
+├── Makefile        → Automates complete RTL-to-GDSII flow  
+├── platforms/      → Technology libraries (LEF, LIB, GDS, etc.)  
+├── scripts/        → TCL helper scripts for flow stages  
+├── tutorials/      → Learning examples and demos  
+├── util/           → Utility and support files
+```
+🧠 Workflow Summary (RTL → GDSII)
+```bash
+Stage             Tool         Description
+------------------------------------------------------------
+Synthesis         Yosys        Converts RTL (Verilog) into gate-level netlist
+Floorplanning     OpenROAD     Defines chip core area and cell regions
+Placement         OpenROAD     Places standard cells optimally
+CTS               OpenROAD     Builds clock tree network
+Routing           OpenROAD     Connects all nets physically
+GDSII Export      OpenROAD     Generates final chip layout
+```
 </details>
 <details>
 <summary><b> 📅 Week 6- Physical Design </b></summary>
