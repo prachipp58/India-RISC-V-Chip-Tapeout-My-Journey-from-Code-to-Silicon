@@ -735,6 +735,47 @@ CTS               OpenROAD     Builds clock tree network
 Routing           OpenROAD     Connects all nets physically
 GDSII Export      OpenROAD     Generates final chip layout
 ```
+## 🛠️ Troubleshooting Guide  
+
+### 🧩 Common Issues & Fixes  
+
+| ❌ Issue | 🔍 Cause | 💡 Solution |
+|----------|-----------|-------------|
+| **Missing Dependencies** | Incomplete `setup.sh` installation | Run:<br>`sudo apt-get install cmake swig tcl-dev tk-dev python3-dev build-essential libboost-all-dev` |
+| **Bison Version Error** | Default Ubuntu version < 3.6 | Install Bison 3.6+ manually:<br>`sudo apt-get remove bison`<br>`wget https://ftp.gnu.org/gnu/bison/bison-3.8.tar.gz`<br>`tar -xvzf bison-3.8.tar.gz && cd bison-3.8`<br>`./configure && make && sudo make install` |
+| **OR-Tools Not Found** | Missing dependencies during setup | Re-run dependency installer:<br>`sudo ./etc/DependencyInstaller.sh -all` |
+| **Google Test Linking Error** | GTest build conflict | Disable testing during build:<br>`cmake .. -DBUILD_TESTING=OFF`<br>`make openroad -j$(nproc)` |
+| **Tool Not Found in PATH** | PATH not updated after sourcing | Verify paths:<br>`which yosys` → `~/OpenROAD-flow-scripts/tools/install/yosys/bin/yosys`<br>`which openroad` → `~/OpenROAD-flow-scripts/tools/OpenROAD/build/bin/openroad` |
+| **Make Fails with Missing Files** | Not in correct flow directory or missing config | Run:<br>`cd ~/OpenROAD-flow-scripts/flow`<br>`ls designs/nangate45/gcd/config.mk` |
+| **"No such file or directory" (src/openroad)** | Incorrect binary path | Use:<br>`~/OpenROAD-flow-scripts/tools/OpenROAD/build/bin/openroad` |
+| **GUI Not Launching** | Missing X11 or Tk support | Install:<br>`sudo apt-get install tk-dev x11-apps` |
+| **Build Timeout or Memory Error** | Low system resources | Build using limited threads:<br>`./build_openroad.sh --threads 2` |
+
+🧩 Example: Real User Build Logs (Summary)
+[100%] Linking CXX executable cts_unittest
+[100%] Built target cts_unittest
+[100%] Built target RmpGTests
+[100%] Linking CXX executable CutGTests
+[100%] Built target CutGTests
+[100%] Built target openroad
+
+
+✅ Then verified successfully:
+```bash
+~/OpenROAD-flow-scripts/tools/OpenROAD/build/bin/openroad -version
+v2.0-25841-ge52bd27be4
+```
+## 🧾 Summary Table  
+
+| Step | Description | Status |
+|------|--------------|--------|
+| **Clone Repository** | ✅ Successful |  
+| **Run Setup Script** | ⚠️ Fixed dependency issues |  
+| **Build OpenROAD** | ✅ Successful after submodule fix |  
+| **Verify Binary** | ✅ Found under `/build/bin/openroad` |  
+| **Run GUI** | ✅ Working |  
+| **Troubleshooting** | 🛠️ Documented all major issues |
+
 </details>
 <details>
 <summary><b> 📅 Week 6- Physical Design </b></summary>
