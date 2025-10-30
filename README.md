@@ -751,20 +751,8 @@ GDSII Export      OpenROAD     Generates final chip layout
 | **GUI Not Launching** | Missing X11 or Tk support | Install:<br>`sudo apt-get install tk-dev x11-apps` |
 | **Build Timeout or Memory Error** | Low system resources | Build using limited threads:<br>`./build_openroad.sh --threads 2` |
 
-🧩 Example: Real User Build Logs (Summary)
-[100%] Linking CXX executable cts_unittest
-[100%] Built target cts_unittest
-[100%] Built target RmpGTests
-[100%] Linking CXX executable CutGTests
-[100%] Built target CutGTests
-[100%] Built target openroad
+---
 
-
-✅ Then verified successfully:
-```bash
-~/OpenROAD-flow-scripts/tools/OpenROAD/build/bin/openroad -version
-v2.0-25841-ge52bd27be4
-```
 ## 🧾 Summary Table  
 
 | Step | Description | Status |
@@ -775,6 +763,13 @@ v2.0-25841-ge52bd27be4
 | **Verify Binary** | ✅ Found under `/build/bin/openroad` |  
 | **Run GUI** | ✅ Working |  
 | **Troubleshooting** | 🛠️ Documented all major issues |
+
+---
+## 📚 Reference  
+
+For additional OpenROAD setup details and build insights, refer to:  
+🔗 **OpenROAD Reference –** [https://github.com/spatha0011/spatha_vsdhdp/blob/main/Day14/README.md](https://github.com/spatha0011/spatha_vsdhdp/blob/main/Day14/README.md)
+
 
 </details>
 <details>
