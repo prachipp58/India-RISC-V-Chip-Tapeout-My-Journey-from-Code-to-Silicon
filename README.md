@@ -608,7 +608,9 @@ The CPU executes a specific instruction program designed to generate a unique vo
 
 ##### Functional Verification of DAC Data Path
 
-**[Insert Screenshot of Pre-Synthesis Waveform: DAC Data Path (RV_TO_DAC and OUT) Here]**
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-11-04%20at%208.51.19%20PM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-11-04%20at%208.51.31%20PM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-11-04%20at%208.51.48%20PM.jpeg)
 
 **Observation & Explanation:**
 The waveform confirms the functional correctness of both the instruction execution and the digital-to-analog interface.
