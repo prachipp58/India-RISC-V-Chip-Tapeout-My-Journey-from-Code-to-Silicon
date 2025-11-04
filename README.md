@@ -665,7 +665,7 @@ Build the OpenROAD tool from source:
 ```
 
 📸 Output Screenshot Placeholder:
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.07.17%20AM.jpeg)
 
 🧩 Build Completed 100%
 
