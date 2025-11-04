@@ -683,7 +683,9 @@ openroad -help
 ```
 
 📸 Output Screenshot Placeholder:
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.07.49%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.08.02%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.08.16%20AM.jpeg)
 
 ✅ Yosys and OpenROAD Version Verified
 
@@ -696,7 +698,7 @@ make
 ```
 
 📸 Output Screenshot Placeholder: 
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.07.17%20AM%20(1).jpeg)
 
 🟢 Successful Flow Run — Synthesis → PnR → GDSII
 
@@ -708,7 +710,7 @@ make gui_final
 ```
 
 📸 Output Screenshot Placeholder: 🧠 Final Layout Displayed in GUI
-![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/WhatsApp%20Image%202025-10-31%20at%202.07.36%20AM.jpeg)
 
 ✅ Installation Complete!
 You can now explore the full RTL-to-GDSII design flow using OpenROAD.
