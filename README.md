@@ -652,7 +652,10 @@ Installs dependencies and prepares all required tools.
 sudo ./setup.sh
 ```
 
-📸 Output Screenshot Placeholder: ✅ Setup Completed Successfully
+📸 Output Screenshot Placeholder:
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+
+✅ Setup Completed Successfully
 
 🏗️ 3️⃣ Build OpenROAD
 
@@ -661,7 +664,10 @@ Build the OpenROAD tool from source:
 ./build_openroad.sh --local
 ```
 
-📸 Output Screenshot Placeholder: 🧩 Build Completed 100%
+📸 Output Screenshot Placeholder:
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+
+🧩 Build Completed 100%
 
 🧾 4️⃣ Verify the Installation
 
@@ -676,7 +682,10 @@ yosys -help
 openroad -help
 ```
 
-📸 Output Screenshot Placeholder: ✅ Yosys and OpenROAD Version Verified
+📸 Output Screenshot Placeholder:
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+
+✅ Yosys and OpenROAD Version Verified
 
 🧮 5️⃣ Run the OpenROAD Flow
 
@@ -686,7 +695,10 @@ cd flow
 make
 ```
 
-📸 Output Screenshot Placeholder: 🟢 Successful Flow Run — Synthesis → PnR → GDSII
+📸 Output Screenshot Placeholder: 
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
+
+🟢 Successful Flow Run — Synthesis → PnR → GDSII
 
 🖥️ 6️⃣ Launch the GUI
 
@@ -696,6 +708,7 @@ make gui_final
 ```
 
 📸 Output Screenshot Placeholder: 🧠 Final Layout Displayed in GUI
+![Alt text](https://github.com/prachipp58/India-RISC-V-Chip-Tapeout-My-Journey-from-Code-to-Silicon/blob/main/images/week1/WhatsApp%20Image%202025-10-01%20at%2011.04.01%20AM.jpeg)
 
 ✅ Installation Complete!
 You can now explore the full RTL-to-GDSII design flow using OpenROAD.
